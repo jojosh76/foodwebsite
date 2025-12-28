@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+
+    /* Background image */
+    background-image: url("images/background.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+/* Overlay */
+.overlay {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Logo */
+.logo {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+/* Title */
+h1 {
+    color: white;
+    font-size: 36px;
+    margin-bottom: 40px;
+}
+
+/* Button */
+button {
+    padding: 15px 35px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    background-color: white;
+    color: #661400;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #cce0ff;
+}
