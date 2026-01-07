@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement - Canteen</title>
+    <link rel="stylesheet" href="payment.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Détails de la commande</h2>
+
+    <div class="card">
+        <h3 id="dish-name">Chargement...</h3>
+        <hr>
+
+        <label>Quantité :</label>
+        <div class="quantity-box">
+            <button onclick="decrease()">−</button>
+            <span id="quantity">1</span>
+            <button onclick="increase()">+</button>
+        </div>
+
+        <label>Prix Total :</label>
+        <p class="price"><span id="total">0</span> XAF</p>
+
+        <label>Méthode de paiement :</label>
+        <select id="payment-method">
+            <option value="momo">MTN Mobile Money</option>
+            <option value="om">Orange Money</option>
+        </select>
+
+        <button class="pay-btn" onclick="processPayment()">Payer Maintenant</button>
+    </div>
+</div>
+
+<script src="payment.js"></script>
+</body>
+</html>
