@@ -10,7 +10,7 @@ const pageTitle = document.getElementById("page-title");
 const userEmail = localStorage.getItem("userEmail");
 if (!userEmail || !userEmail.endsWith("@ictu.edu.cm")) {
     alert("Accès refusé ! Réservé aux administrateurs de ICT-U.");
-    window.location.href = "About us.html";
+    window.location.href = "about-us.html";
 }
 
 // 2. INITIALISATION DES DONNÉES
