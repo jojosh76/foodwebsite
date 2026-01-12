@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
             if (data.success) {
                 alert("Account created successfully! You can now log in.");
-                window.location.href = "login.html"; // Redirection vers la connexion
+                window.location.href = "index.html"; // Redirection vers la connexion
             } else {
                 alert("Registration failed: " + data.message);
                 resetButton();

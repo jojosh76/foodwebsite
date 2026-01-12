@@ -2,28 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ICT University Canteen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script src="login.js"></script>
 
-    <!-- Link CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="login.css">
 </head>
-
 <body>
 
-    <div class="overlay">
+<div class="container">
+   
 
-        <!-- Logo -->
-        <img src="images/ict_logo.png" alt="ICT University Logo" class="logo">
+    <div class="login-box">
+        <h2>Login</h2>
 
-        <!-- Title -->
-        <h1>ICT University Canteen</h1>
+        <form>
+            <label>Email:</label>
+            <input type="email" placeholder="Enter your email" required>
 
-        <!-- Button -->
-        <button id="orderBtn">Take an Order</button>
+            <label>Password:</label>
+            <input type="password" placeholder="Enter your password" required>
 
+            <button type="submit">Log In</button>
+
+            <p class="register-link">
+                Don't have an account?
+                <a href="register.html">Register here</a>
+            </p>
+        </form>
     </div>
+</div>
 
-    <!-- Link JavaScript -->
-    <script src="script.js"></script>
 </body>
 </html>
