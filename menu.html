@@ -5,8 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu - ICT University Canteen</title>
     <link rel="stylesheet" href="menu.css">
+    <script src="auth-check.js"></script>
 </head>
 <body>
+
+<nav class="navbar">
+    <div class="nav-links">
+        <a href="About us.html">About Us</a>
+        <a href="menu.html" class="active">Our Menu</a>
+        <a href="settings.html">Settings</a>
+        <a href="admin.html" id="admin-link" style="display: none;">Dashboard Admin</a>
+    </div>
+</nav>
 
 <header>
     <div class="header-content">
@@ -26,14 +36,14 @@
         <div class="menu-grid">
             
             <article class="menu-item">
-                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" alt="Poulet DG" class="item-image">
+                <img src="dishes/riz poulet.jpeg" alt="Chicken" class="item-image">
                 <div class="item-details">
                     <div class="item-header">
-                        <span class="item-name">Poulet DG</span>
+                        <span class="item-name">Chicken and rice</span>
                         <span class="item-price">1000 FCFA</span>
                     </div>
-                    <p class="item-description">Un classique camerounais : poulet frit, plantains mûrs et légumes.</p>
-                    <button class="order-btn" onclick="addToCart('Poulet DG', 1000)">Order</button>
+                    <p class="item-description"> Fried chicken in sauce with rice and some vegetables.</p>
+                    <button class="order-btn" onclick="addToCart('rice and chicken', 1000)">Order</button>
                 </div>
             </article>
 
@@ -97,6 +107,8 @@
                 </div>
             </article>
 
+            <div id="dynamic-menu-grid" class="menu-grid"></div>
+
         </div>
     </section>
 
@@ -138,12 +150,14 @@
                     <button class="order-btn" onclick="addToCart('Water', 300)">Order</button>
                 </div>
             </article>
+
+             <div id="dynamic-drinks-grid" class="menu-grid"></div>
         </div>
     </section>
 </main>
 
 <footer>
-    <p>&copy; 2024 ICT University Canteen</p>
+    <p>&copy; 2025 ICT University Canteen</p>
 </footer>
 
 <script src="menu.js"></script>
