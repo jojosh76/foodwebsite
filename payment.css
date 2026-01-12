@@ -73,3 +73,50 @@ select {
 }
 
 .pay-btn:hover { background: #d35400; }
+.receipt-card {
+    border: 2px dashed #333; /* Effet ticket */
+    background: #fff;
+    padding: 30px;
+}
+
+.receipt-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.receipt-body p {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.receipt-total {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #003366;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.receipt-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.secondary-btn {
+    background: #666;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* Cache la navbar et le bouton retour lors de l'impression */
+@media print {
+    .navbar, .secondary-btn, .pay-btn {
+        display: none;
+    }
+}
