@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings | University Canteen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="settings.css">
+    <script src="auth-check.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-links">
+        <a href="About us.html">About Us</a>
+        <a href="menu.html">Our Menu</a>
+        <a href="settings.html" class="active">Settings</a>
+    </div>
+</nav>
+
+<div class="settings-container">
+    <header class="settings-header">
+        <h1>⚙️ Settings</h1>
+        <p>Manage your account and preferences</p>
+    </header>
+
+    <section class="card">
+        <h2>👤 Account</h2>
+        <label>Email</label>
+        <input type="email" id="userEmailDisplay" value="student@gmail.com" disabled style="background: #eee;">
+
+        <label>Phone number</label>
+        <input type="tel" placeholder="+237 6XX XXX XXX">
+
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+    </section>
+
+    <section class="card">
+        <h2>🔔 Notifications</h2>
+        <div class="toggle">
+            <span>Menu specials</span>
+            <label class="switch">
+                <input type="checkbox" id="notifMenu" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="toggle">
+            <span>Promotions</span>
+            <label class="switch">
+                <input type="checkbox" id="notifPromo">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>🍽️ Food Preferences</h2>
+        <label>Diet type</label>
+        <select>
+            <option>None</option>
+            <option>Vegetarian</option>
+            <option>Vegan</option>
+        </select>
+
+        <label>Allergies</label>
+        <div class="checkbox-group">
+            <label><input type="checkbox"> Peanuts</label>
+            <label><input type="checkbox"> Milk</label>
+            <label><input type="checkbox"> Gluten</label>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>🌗 Appearance</h2>
+        <div class="toggle">
+            <span>Dark mode</span>
+            <label class="switch">
+                <input type="checkbox" id="darkMode">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <label>Language</label>
+        <select>
+            <option>English</option>
+            <option>French</option>
+        </select>
+    </section>
+
+    <button class="save-btn" id="saveBtn">Save Settings</button>
+</div>
+
+<script src="settings.js"></script>
+</body>
+</html>
