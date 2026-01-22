@@ -48,8 +48,8 @@ header h1 {
 /* Grille et Cartes */
 .menu-grid {
     display: grid;
-    /* Aligne les cartes sur la même hauteur dans une ligne */
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    /* Force exactement 3 colonnes de taille égale */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 25px;
     margin-top: 20px;
     align-items: stretch; 
