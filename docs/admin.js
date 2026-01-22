@@ -10,15 +10,14 @@ const pageTitle = document.getElementById("page-title");
 const userEmail = localStorage.getItem("userEmail");
 if (!userEmail || !userEmail.endsWith("@ictu.edu.cm")) {
     alert("Accès refusé ! Réservé aux administrateurs de ICT-U.");
-    window.location.href = "About us.html";
+    window.location.href = "about-us.html";
 }
 
-// 2. INITIALISATION DES DONNÉES
 let orders = [];
 let users = [];
-let meals = []; // Les plats seront chargés depuis MySQL
+let meals = [];
 
-/* ===== SIDEBAR UI ===== */
+/* ===== SIDEBAR UI (Toutes tes options) ===== */
 sidebar.innerHTML = `
   <h2>🍽️ Canteen Admin</h2>
   <ul>
@@ -29,36 +28,25 @@ sidebar.innerHTML = `
   </ul>
 `;
 
-/* ===== CHARGEMENT DES PAGES (ROUTER) ===== */
 function loadPage(page) {
-    // Gestion visuelle du menu actif
     document.querySelectorAll(".sidebar li").forEach(li => li.classList.remove("active"));
     const activeNav = document.getElementById(`nav-${page}`);
     if (activeNav) activeNav.classList.add("active");
 
-    // Chargement du contenu
     if (page === "dashboard") loadDashboard();
     if (page === "dishes") loadDishes();
     if (page === "orders") loadOrders();
     if (page === "users") loadUsers();
 }
 
-/* ==========================================================
-   GESTION DES PLATS (SYNC SQL)
-   ========================================================== */
+/* ===== GESTION DES PLATS (AVEC STOCK) ===== */
 
-// Fonction pour récupérer les plats depuis la base SQL via l'API
 async function fetchMealsFromDB() {
     try {
         const response = await fetch("http://localhost:3000/api/meals");
         meals = await response.json();
-        // Si on est sur la page "dishes", on rafraîchit l'affichage
-        if (document.getElementById("admin-menu-grid")) {
-            renderAdminDishes();
-        }
-    } catch (err) {
-        console.error("Erreur de connexion API pour les plats:", err);
-    }
+        if (document.getElementById("admin-menu-grid")) renderAdminDishes();
+    } catch (err) { console.error("Erreur API plats:", err); }
 }
 
 function loadDishes() {
@@ -67,9 +55,10 @@ function loadDishes() {
         <div class="table-card" style="margin-bottom: 25px;">
             <h3><i class="fa fa-plus-circle"></i> Add New Dish (MySQL)</h3>
             <form id="add-dish-form" style="display:grid; gap:15px; margin-top:15px;">
-                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:15px;">
                     <input type="text" id="d-name" placeholder="Dish Name" required style="padding:12px; border-radius:8px; border:1px solid #ddd;">
                     <input type="number" id="d-price" placeholder="Price (FCFA)" required style="padding:12px; border-radius:8px; border:1px solid #ddd;">
+                    <input type="number" id="d-stock" placeholder="Stock" value="50" required style="padding:12px; border-radius:8px; border:1px solid #ddd;">
                 </div>
                 <textarea id="d-desc" placeholder="Description..." required style="padding:12px; border-radius:8px; border:1px solid #ddd; height:80px;"></textarea>
                 
@@ -85,17 +74,14 @@ function loadDishes() {
                 <button type="submit" style="background:#FF8C00; color:white; padding:12px; border-radius:8px; border:none; font-weight:bold; cursor:pointer;">Save to Database</button>
             </form>
         </div>
-
         <div class="table-card">
             <h3>Menu Preview (Current SQL Content)</h3>
-            <div id="admin-menu-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:20px; margin-top:20px;">
-                </div>
+            <div id="admin-menu-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:20px; margin-top:20px;"></div>
         </div>
     `;
 
-    fetchMealsFromDB(); // On charge les données dès l'ouverture
+    fetchMealsFromDB();
 
-    // Gestion du formulaire d'ajout
     document.getElementById("add-dish-form").onsubmit = function(e) {
         e.preventDefault();
         const file = document.getElementById("d-img").files[0];
@@ -105,11 +91,11 @@ function loadDishes() {
             const newMeal = {
                 name: document.getElementById("d-name").value,
                 price: document.getElementById("d-price").value,
+                stock: document.getElementById("d-stock").value,
                 desc: document.getElementById("d-desc").value,
-                image: reader.result // Envoi en Base64
+                image: reader.result
             };
             
-            // APPEL API POUR ENREGISTRER DANS MYSQL
             try {
                 const response = await fetch("http://localhost:3000/api/admin/add-meal", {
                     method: "POST",
@@ -118,20 +104,17 @@ function loadDishes() {
                 });
 
                 if (response.ok) {
-                    alert("Dish added successfully to MySQL database!");
+                    alert("Dish added successfully!");
                     e.target.reset();
                     document.getElementById("preview-container").style.display = "none";
-                    fetchMealsFromDB(); // Rafraîchir la liste
+                    fetchMealsFromDB();
                 }
-            } catch (err) {
-                alert("Error connecting to server. Is Node.js running?");
-            }
+            } catch (err) { alert("Error connecting to server."); }
         };
         if (file) reader.readAsDataURL(file);
     };
 }
 
-// Prévisualisation de l'image sélectionnée
 function previewImage(input) {
     const preview = document.getElementById('img-preview');
     const container = document.getElementById('preview-container');
@@ -145,18 +128,15 @@ function previewImage(input) {
     }
 }
 
-// Affichage des plats dans la grille Admin
 function renderAdminDishes() {
     const grid = document.getElementById("admin-menu-grid");
     if (!grid) return;
 
-    if (meals.length === 0) {
-        grid.innerHTML = "<p style='color:#999;'>No extra dishes in SQL database.</p>";
-        return;
-    }
-
     grid.innerHTML = meals.map(m => `
-        <div style="background:white; border:1px solid #eee; border-radius:12px; overflow:hidden; box-shadow:0 2px 5px rgba(0,0,0,0.05);">
+        <div style="background:white; border:1px solid #eee; border-radius:12px; overflow:hidden; position:relative; box-shadow:0 2px 5px rgba(0,0,0,0.05);">
+            <div style="position:absolute; top:5px; left:5px; background:#003366; color:white; padding:2px 6px; border-radius:4px; font-size:10px;">
+                Stock: ${m.stock}
+            </div>
             <img src="${m.image}" style="width:100%; height:120px; object-fit:cover;">
             <div style="padding:10px; text-align:center;">
                 <h4 style="font-size:14px; margin:0;">${m.name}</h4>
@@ -169,43 +149,32 @@ function renderAdminDishes() {
     `).join("");
 }
 
-// Suppression d'un plat dans SQL via API
 async function deleteMeal(id) {
-    if(confirm("Permanently delete this item from the database?")) {
+    if(confirm("Permanently delete?")) {
         try {
-            const response = await fetch(`http://localhost:3000/api/admin/delete-meal/${id}`, {
-                method: "DELETE"
-            });
-            if (response.ok) {
-                fetchMealsFromDB(); // Rafraîchir la vue
-            }
-        } catch (err) {
-            console.error("Erreur lors de la suppression:", err);
-        }
+            const response = await fetch(`http://localhost:3000/api/admin/delete-meal/${id}`, { method: "DELETE" });
+            if (response.ok) fetchMealsFromDB();
+        } catch (err) { console.error("Erreur suppression:", err); }
     }
 }
 
-/* ==========================================================
-   DASHBOARD & STATISTIQUES
-   ========================================================== */
+/* ===== DASHBOARD & STATS (Toutes tes fonctionnalités) ===== */
 
 async function fetchData() {
     try {
-        // Chargement des commandes et utilisateurs depuis l'API
         const resOrders = await fetch("http://localhost:3000/api/admin/orders");
         orders = await resOrders.json();
         const resUsers = await fetch("http://localhost:3000/api/admin/users");
         users = await resUsers.json();
         loadDashboard();
     } catch (err) { 
-        console.warn("API Offline - Using dummy data for dashboard preview"); 
+        console.warn("API Offline - Mode démo"); 
         loadDashboard(); 
     }
 }
 
 function loadDashboard() {
     pageTitle.innerText = "Dashboard";
-    // Calcul du revenu total des commandes payées
     const revenue = orders.filter(o => o.status === 'paid').reduce((sum, o) => sum + parseFloat(o.total_amount), 0);
     
     main.innerHTML = `
@@ -217,13 +186,12 @@ function loadDashboard() {
         <div class="table-card" style="margin-top:20px;">
             <h3>Quick Management</h3>
             <button onclick="loadPage('dishes')" style="padding:12px 20px; background:#003366; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">
-                <i class="fa fa-edit"></i> Update Menu
+                <i class="fa fa-edit"></i> Update Menu & Stock
             </button>
         </div>
     `;
 }
 
-/* ===== AUTRES PAGES (STUBS) ===== */
 function loadOrders() { 
     pageTitle.innerText = "Orders Management"; 
     main.innerHTML = "<div class='table-card'><h3>Orders list (Fetched from MySQL Database)</h3></div>"; 
@@ -234,5 +202,4 @@ function loadUsers() {
     main.innerHTML = "<div class='table-card'><h3>Registered Students (ICTU Domain Only)</h3></div>"; 
 }
 
-// INITIALISATION AU DÉMARRAGE
 fetchData();

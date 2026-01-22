@@ -58,10 +58,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Redirection selon le type d'utilisateur
                 if (data.user.email.endsWith("@ictu.edu.cm")) {
                     
-                    window.location.href = "about us.html";
+                    window.location.href = "about-us.html";
                 } else {
                     
-                    window.location.href = "about us.html";
+                    window.location.href = "about-us.html";
                 }
 
             } else {
