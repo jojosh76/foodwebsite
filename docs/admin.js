@@ -1,6 +1,12 @@
 /* ==========================================================
    ADMIN.JS - GESTION COMPLÈTE (DASHBOARD & SQL)
    ========================================================== */
+   // Détecte automatiquement si on est sur PC (localhost) ou sur mobile (IP)
+const SERVER_IP = "10.117.226.154"; 
+const BASE_URL = window.location.hostname === "localhost" 
+    ? "http://localhost:3000" 
+    : `http://${SERVER_IP}:3000`;
+
 
 const sidebar = document.getElementById("sidebar");
 const main = document.getElementById("main-content");
@@ -43,7 +49,7 @@ function loadPage(page) {
 
 async function fetchMealsFromDB() {
     try {
-        const response = await fetch("http://localhost:3000/api/meals");
+        const response = await fetch(`${BASE_URL}/api/meals`)
         meals = await response.json();
         if (document.getElementById("admin-menu-grid")) renderAdminDishes();
     } catch (err) { console.error("Erreur API plats:", err); }
@@ -97,7 +103,7 @@ function loadDishes() {
             };
             
             try {
-                const response = await fetch("http://localhost:3000/api/admin/add-meal", {
+                const response = await fetch(`${BASE_URL}/api/admin/add-meal`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(newMeal)
@@ -152,7 +158,7 @@ function renderAdminDishes() {
 async function deleteMeal(id) {
     if(confirm("Permanently delete?")) {
         try {
-            const response = await fetch(`http://localhost:3000/api/admin/delete-meal/${id}`, { method: "DELETE" });
+            const response = await fetch(`${BASE_URL}/api/admin/delete-meal/${id}`, { method: "DELETE" });
             if (response.ok) fetchMealsFromDB();
         } catch (err) { console.error("Erreur suppression:", err); }
     }
@@ -162,9 +168,9 @@ async function deleteMeal(id) {
 
 async function fetchData() {
     try {
-        const resOrders = await fetch("http://localhost:3000/api/admin/orders");
+       const resOrders = await fetch(`${BASE_URL}/api/admin/orders`);
         orders = await resOrders.json();
-        const resUsers = await fetch("http://localhost:3000/api/admin/users");
+        const resUsers = await fetch(`${BASE_URL}/api/admin/users`);
         users = await resUsers.json();
         loadDashboard();
     } catch (err) { 

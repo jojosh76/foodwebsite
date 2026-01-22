@@ -2,6 +2,12 @@
    PAYMENT.JS - GESTION DU PAIEMENT ET MISE À JOUR STOCK
    ========================================================== */
 
+     // Détecte automatiquement si on est sur PC (localhost) ou sur mobile (IP)
+const SERVER_IP = "10.117.226.154"; 
+const BASE_URL = window.location.hostname === "localhost" 
+    ? "http://localhost:3000" 
+    : `http://${SERVER_IP}:3000`;
+
 // 1. Récupération des paramètres dans l'URL (ID, prix et nom)
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -74,7 +80,7 @@ async function processPayment() {
 
     // --- LOGIQUE D'ENVOI AU BACKEND ---
     try {
-        const response = await fetch("http://localhost:3000/api/payment", {
+        const response = awaitfetch(`${BASE_URL}/api/payment`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

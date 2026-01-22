@@ -2,6 +2,13 @@
    MENU.JS - GESTION DU MENU (MYSQL) ET DU PANIER
    ========================================================== */
 
+
+   // Détecte automatiquement si on est sur PC (localhost) ou sur mobile (IP)
+const SERVER_IP = "10.117.226.154"; 
+const BASE_URL = window.location.hostname === "localhost" 
+    ? "http://localhost:3000" 
+    : `http://${SERVER_IP}:3000`;
+
 let cart = [];
 let totalAmount = 0;
 
@@ -17,7 +24,7 @@ async function renderMenuFromSQL() {
     if (!grid) return;
 
     try {
-        const response = await fetch("http://localhost:3000/api/meals");
+        const response = await fetch(`${BASE_URL}/api/meals`)
         const meals = await response.json();
 
         if (meals.length === 0) {
