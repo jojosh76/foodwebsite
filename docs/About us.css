@@ -1,0 +1,182 @@
+/* ===== 1. RESET & BASICS ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", -apple-system, sans-serif;
+}
+
+body {
+    background-color: #f1f5f9;
+    color: #334155;
+    line-height: 1.6;
+}
+
+/* ===== 2. NAVIGATION BAR ===== */
+.navbar {
+    background-color: #003366; /* Bleu ICT-U */
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+
+.nav-links a:hover, 
+.nav-links a.active {
+    color: #FF8C00; /* Orange ICT-U */
+}
+
+/* ===== 3. HEADER SECTION ===== */
+.header {
+    background: white;
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    color: #0f172a;
+    margin-bottom: 20px;
+}
+
+.main-logo {
+    width: 150px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* ===== 4. PROJECT SECTION ===== */
+.project {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.project h2 {
+    color: #003366;
+    margin-bottom: 20px;
+}
+
+.project p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: #475569;
+}
+
+.cta-container {
+    margin-top: 30px;
+}
+
+.cta-button {
+    background-color: #FF8C00;
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s;
+    display: inline-block;
+}
+
+.cta-button:hover {
+    background-color: #e67e00;
+}
+
+/* ===== 5. TEAM SECTION (LES PHOTOS) ===== */
+.team {
+    padding: 60px 20px;
+    background: #f8fafc;
+}
+
+.team h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #003366;
+}
+
+.team-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.member {
+    background: white;
+    padding: 30px 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    width: 260px;
+    transition: transform 0.3s ease;
+}
+
+.member:hover {
+    transform: translateY(-10px);
+}
+
+/* Style des photos des membres */
+.main-photo {
+    width: 160px;       /* Taille fixe */
+    height: 160px;      /* Taille fixe */
+    object-fit: cover;  /* Empêche la déformation */
+    border-radius: 50%; /* Rend la photo ronde */
+    border: 5px solid #003366; /* Bordure bleue */
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.member h3 {
+    font-size: 1.25rem;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.member p {
+    color: #FF8C00;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+/* ===== 6. RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .nav-links {
+        gap: 15px;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .member {
+        width: 100%; /* Prend toute la largeur sur petit écran */
+        max-width: 300px;
+    }
+}
