@@ -1,12 +1,12 @@
 /* ==========================================================
    ADMIN.JS - GESTION COMPLÈTE (DASHBOARD & SQL)
    ========================================================== */
-   // Détecte automatiquement si on est sur PC (localhost) ou sur mobile (IP)
+
+// Détecte automatiquement si on est sur PC (localhost) ou sur mobile (IP)
 const SERVER_IP = "10.117.226.154"; 
 const BASE_URL = window.location.hostname === "localhost" 
     ? "http://localhost:3000" 
     : `http://${SERVER_IP}:3000`;
-
 
 const sidebar = document.getElementById("sidebar");
 const main = document.getElementById("main-content");
@@ -23,7 +23,7 @@ let orders = [];
 let users = [];
 let meals = [];
 
-/* ===== SIDEBAR UI (Toutes tes options) ===== */
+/* ===== SIDEBAR UI ===== */
 sidebar.innerHTML = `
   <h2>🍽️ Canteen Admin</h2>
   <ul>
@@ -49,7 +49,7 @@ function loadPage(page) {
 
 async function fetchMealsFromDB() {
     try {
-        const response = await fetch(`${BASE_URL}/api/meals`)
+        const response = await fetch(`${BASE_URL}/api/meals`);
         meals = await response.json();
         if (document.getElementById("admin-menu-grid")) renderAdminDishes();
     } catch (err) { console.error("Erreur API plats:", err); }
@@ -164,15 +164,15 @@ async function deleteMeal(id) {
     }
 }
 
-/* ===== DASHBOARD & STATS (Toutes tes fonctionnalités) ===== */
+/* ===== DASHBOARD & STATS ===== */
 
 async function fetchData() {
     try {
        const resOrders = await fetch(`${BASE_URL}/api/admin/orders`);
-        orders = await resOrders.json();
-        const resUsers = await fetch(`${BASE_URL}/api/admin/users`);
-        users = await resUsers.json();
-        loadDashboard();
+       orders = await resOrders.json();
+       const resUsers = await fetch(`${BASE_URL}/api/admin/users`);
+       users = await resUsers.json();
+       loadDashboard();
     } catch (err) { 
         console.warn("API Offline - Mode démo"); 
         loadDashboard(); 
@@ -181,7 +181,7 @@ async function fetchData() {
 
 function loadDashboard() {
     pageTitle.innerText = "Dashboard";
-    const revenue = orders.filter(o => o.status === 'paid').reduce((sum, o) => sum + parseFloat(o.total_amount), 0);
+    const revenue = orders.filter(o => o.status === 'paid').reduce((sum, o) => sum + parseFloat(o.total_amount || 0), 0);
     
     main.innerHTML = `
         <div class="stats">
@@ -198,12 +198,11 @@ function loadDashboard() {
     `;
 }
 
-/* ===== GESTION DES COMMANDES (ORDERS) ===== */
+/* ===== GESTION DES COMMANDES (ORDERS) - VERSION CORRIGÉE ===== */
 
 async function loadOrders() { 
     pageTitle.innerText = "Orders Management"; 
     
-    // Affichage d'un indicateur de chargement
     main.innerHTML = `
         <div class="table-card">
             <h3><i class="fa fa-receipt"></i> Recent Orders</h3>
@@ -212,10 +211,8 @@ async function loadOrders() {
     `; 
 
     try {
-        // Récupération des commandes depuis le serveur MySQL
         const response = await fetch(`${BASE_URL}/api/admin/orders`);
         const ordersData = await response.json();
-
         const container = document.getElementById("orders-list-container");
 
         if (!ordersData || ordersData.length === 0) {
@@ -223,7 +220,6 @@ async function loadOrders() {
             return;
         }
 
-        // Création du tableau des commandes
         container.innerHTML = `
             <table style="width:100%; border-collapse: collapse; margin-top:15px;">
                 <thead>
@@ -238,30 +234,41 @@ async function loadOrders() {
                     </tr>
                 </thead>
                 <tbody>
-                    ${ordersData.map(order => `
-                        <tr style="border-bottom: 1px solid #eee;">
-                            <td style="padding:12px;">#${order.id}</td>
-                            <td style="padding:12px; font-weight:bold;">${order.item_name || order.item}</td>
-                            <td style="padding:12px;">${order.unit_price} FCFA</td>
-                            <td style="padding:12px;">x${order.quantity}</td>
-                            <td style="padding:12px; color:#FF8C00; font-weight:bold;">${(order.unit_price * order.quantity).toLocaleString()} FCFA</td>
-                            <td style="padding:12px;">
-                                <span style="background:#dcfce7; color:#166534; padding:4px 8px; border-radius:12px; font-size:12px;">
-                                    ${order.status || 'Paid'}
-                                </span>
-                            </td>
-                            <td style="padding:12px; font-size:12px; color:#666;">
-                                ${new Date(order.created_at).toLocaleDateString()}
-                            </td>
-                        </tr>
-                    `).join('')}
+                    ${ordersData.map(order => {
+                        // Détection dynamique des noms de colonnes MySQL
+                        const dishName = order.item_name || order.item || order.name || "Unknown Dish";
+                        const price = order.unit_price || order.price || 0;
+                        const qty = order.quantity || order.qty || 0;
+                        const total = price * qty;
+                        const date = order.created_at || order.date || new Date();
+
+                        return `
+                            <tr style="border-bottom: 1px solid #eee;">
+                                <td style="padding:12px;">#${order.id}</td>
+                                <td style="padding:12px; font-weight:bold;">${dishName}</td>
+                                <td style="padding:12px;">${price} FCFA</td>
+                                <td style="padding:12px;">x${qty}</td>
+                                <td style="padding:12px; color:#FF8C00; font-weight:bold;">${total.toLocaleString()} FCFA</td>
+                                <td style="padding:12px;">
+                                    <span style="background:#dcfce7; color:#166534; padding:4px 8px; border-radius:12px; font-size:12px;">
+                                        ${order.status || 'paid'}
+                                    </span>
+                                </td>
+                                <td style="padding:12px; font-size:12px; color:#666;">
+                                    ${new Date(date).toLocaleDateString()}
+                                </td>
+                            </tr>
+                        `;
+                    }).join('')}
                 </tbody>
             </table>
         `;
     } catch (err) {
         console.error("Erreur chargement commandes:", err);
         document.getElementById("orders-list-container").innerHTML = 
-            `<p style="color:red;">Error connecting to database. Make sure your server is running.</p>`;
+            `<p style="color:red;">Error connecting to database.</p>`;
     }
 }
+
+// Initialisation au chargement
 fetchData();
