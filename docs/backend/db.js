@@ -1,20 +1,24 @@
-const mysql = require("mysql2");
+const mysql = require('mysql2');
 
-// Utilise les variables d'environnement ou les valeurs par défaut (pour le local)
+// On crée la connexion en utilisant les variables de Render
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "Jojo@inator26",
-  database: process.env.DB_DATABASE || "canteen_web_db",
-  port: process.env.DB_PORT || 3306
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  port: process.env.DB_PORT || 3306,
+  // Indispensable pour la connexion sécurisée entre Render et Railway
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
-db.connect(err => {
+db.connect((err) => {
   if (err) {
-    console.log("❌ MySQL error:", err);
-  } else {
-    console.log("✅ MySQL connected");
+    console.error("❌ Erreur de connexion à Railway :", err.message);
+    return;
   }
+  console.log("✅ Connecté avec succès à la base de données Railway !");
 });
 
 module.exports = db;
