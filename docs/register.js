@@ -1,3 +1,7 @@
+// URL vers ton backend Render
+const BASE_URL = "https://foodwebsite-7znj.onrender.com";
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("registerForm");
     const registerBtn = document.getElementById("registerBtn");
@@ -23,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         registerBtn.style.opacity = "0.7";
 
         // 4. Appel au Backend
-        fetch("http://localhost:3000/api/register", {
+        fetch(`${BASE_URL}/api/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ 

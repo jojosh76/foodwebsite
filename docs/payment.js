@@ -2,16 +2,11 @@
    PAYMENT.JS - GESTION DU PAIEMENT ET MISE À JOUR STOCK
    ========================================================== */
 
-     // Détecte automatiquement si on est sur PC (localhost) ou sur mobile (IP)
-const SERVER_IP = "10.117.226.154"; 
-const BASE_URL = window.location.hostname === "localhost" 
-    ? "http://localhost:3000" 
-    : `http://${SERVER_IP}:3000`;
+const BASE_URL = "https://foodwebsite-7znj.onrender.com";
 
 // 1. Récupération des paramètres dans l'URL (ID, prix et nom)
 const urlParams = new URLSearchParams(window.location.search);
 
-// --- CORRECTION : Récupération du mealId indispensable pour MySQL ---
 const mealId = urlParams.get('id'); 
 const dishName = urlParams.get('item') || "Selected Dish";
 const unitPrice = parseInt(urlParams.get('price')) || 0;
@@ -75,7 +70,7 @@ async function processPayment() {
     const method = methodElement ? methodElement.value : "Unknown";
     const finalTotal = currentQuantity * unitPrice;
 
-    // Récupération de l'ID utilisateur (depuis le localStorage après login)
+    // Récupération de l'ID utilisateur
     const userId = localStorage.getItem("userId") || 1; 
 
     // --- LOGIQUE D'ENVOI AU BACKEND ---
@@ -86,7 +81,7 @@ async function processPayment() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                mealId: mealId,           // <--- ENVOI DE L'ID POUR DIMINUER LE STOCK
+                mealId: mealId,
                 user_id: userId,
                 item: dishName,
                 unit_price: unitPrice,
@@ -98,16 +93,14 @@ async function processPayment() {
         const data = await response.json();
 
         if (response.ok && data.success) {
-            // Si le serveur confirme que tout est OK (Paiement + Stock)
             showReceipt(dishName, currentQuantity, method, finalTotal);
         } else {
-            // Si le stock est insuffisant ou erreur serveur
             alert("Order Error: " + (data.message || "Unable to process payment"));
         }
 
     } catch (err) {
         console.error("Fetch Error:", err);
-        alert("Server connection failed. Is your Node.js server running?");
+        alert("Server connection failed. Is your Render server running?");
     }
 }
 
@@ -117,18 +110,15 @@ async function processPayment() {
 function showReceipt(name, qty, method, total) {
     alert("Payment validated successfully! ✅");
 
-    // Masquer le formulaire de paiement
     const card = document.querySelector('.card');
     if (card) card.style.display = 'none';
 
-    // Remplir les informations du reçu
     document.getElementById('receipt-date').innerText = new Date().toLocaleString();
     document.getElementById('receipt-item').innerText = name;
     document.getElementById('receipt-qty').innerText = qty;
     document.getElementById('receipt-method').innerText = method.toUpperCase();
     document.getElementById('receipt-total').innerText = total.toLocaleString();
 
-    // Afficher le bloc reçu
     const receiptBlock = document.getElementById('receipt');
     if (receiptBlock) receiptBlock.style.display = 'block';
 }

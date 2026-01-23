@@ -2,11 +2,8 @@
    ADMIN.JS - GESTION COMPLÈTE (DASHBOARD & SQL)
    ========================================================== */
 
-// Détecte automatiquement si on est sur PC (localhost) ou sur mobile (IP)
-const SERVER_IP = "10.117.226.154"; 
-const BASE_URL = window.location.hostname === "localhost" 
-    ? "http://localhost:3000" 
-    : `http://${SERVER_IP}:3000`;
+// Remplacer par ton lien Render pour que le téléphone puisse y accéder
+const BASE_URL = "https://foodwebsite-7znj.onrender.com";
 
 const sidebar = document.getElementById("sidebar");
 const main = document.getElementById("main-content");
@@ -174,8 +171,8 @@ async function fetchData() {
        users = await resUsers.json();
        loadDashboard();
     } catch (err) { 
-        console.warn("API Offline - Mode démo"); 
-        loadDashboard(); 
+         console.warn("API Offline - Mode démo"); 
+         loadDashboard(); 
     }
 }
 
@@ -235,18 +232,18 @@ async function loadOrders() {
                 </thead>
                 <tbody>
                     ${ordersData.map(order => {
-                        // Détection dynamique des noms de colonnes MySQL
+                        // Détection dynamique pour éviter undefined/NaN
                         const dishName = order.item_name || order.item || order.name || "Unknown Dish";
-                        const price = order.unit_price || order.price || 0;
-                        const qty = order.quantity || order.qty || 0;
-                        const total = price * qty;
+                        const price = parseFloat(order.unit_price || order.price || 0);
+                        const qty = parseInt(order.quantity || order.qty || 0);
+                        const total = order.total_amount ? parseFloat(order.total_amount) : (price * qty);
                         const date = order.created_at || order.date || new Date();
 
                         return `
                             <tr style="border-bottom: 1px solid #eee;">
                                 <td style="padding:12px;">#${order.id}</td>
                                 <td style="padding:12px; font-weight:bold;">${dishName}</td>
-                                <td style="padding:12px;">${price} FCFA</td>
+                                <td style="padding:12px;">${price.toLocaleString()} FCFA</td>
                                 <td style="padding:12px;">x${qty}</td>
                                 <td style="padding:12px; color:#FF8C00; font-weight:bold;">${total.toLocaleString()} FCFA</td>
                                 <td style="padding:12px;">
@@ -266,7 +263,7 @@ async function loadOrders() {
     } catch (err) {
         console.error("Erreur chargement commandes:", err);
         document.getElementById("orders-list-container").innerHTML = 
-            `<p style="color:red;">Error connecting to database.</p>`;
+            `<p style="color:red;">Error connecting to server.</p>`;
     }
 }
 

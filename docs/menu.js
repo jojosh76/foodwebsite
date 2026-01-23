@@ -2,12 +2,7 @@
    MENU.JS - GESTION DU MENU (MYSQL) ET DU PANIER
    ========================================================== */
 
-
-   // Détecte automatiquement si on est sur PC (localhost) ou sur mobile (IP)
-const SERVER_IP = "10.117.226.154"; 
-const BASE_URL = window.location.hostname === "localhost" 
-    ? "http://localhost:3000" 
-    : `http://${SERVER_IP}:3000`;
+const BASE_URL = "https://foodwebsite-7znj.onrender.com";
 
 let cart = [];
 let totalAmount = 0;
@@ -76,7 +71,7 @@ function addToCart(itemName, price, itemId) {
 
     showNotification(`${itemName} added to cart!`);
     
-    // Redirection vers paiement avec l'ID pour pouvoir déduire le stock côté serveur plus tard
+    // Redirection vers paiement
     setTimeout(() => {
         window.location.href = `payment.html?id=${itemId}&item=${encodeURIComponent(itemName)}&price=${price}`;
     }, 800);
