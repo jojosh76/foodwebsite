@@ -198,14 +198,70 @@ function loadDashboard() {
     `;
 }
 
-function loadOrders() { 
+/* ===== GESTION DES COMMANDES (ORDERS) ===== */
+
+async function loadOrders() { 
     pageTitle.innerText = "Orders Management"; 
-    main.innerHTML = "<div class='table-card'><h3>Orders list (Fetched from MySQL Database)</h3></div>"; 
-}
+    
+    // Affichage d'un indicateur de chargement
+    main.innerHTML = `
+        <div class="table-card">
+            <h3><i class="fa fa-receipt"></i> Recent Orders</h3>
+            <div id="orders-list-container">Loading orders...</div>
+        </div>
+    `; 
 
-function loadUsers() { 
-    pageTitle.innerText = "Users Management"; 
-    main.innerHTML = "<div class='table-card'><h3>Registered Students (ICTU Domain Only)</h3></div>"; 
-}
+    try {
+        // Récupération des commandes depuis le serveur MySQL
+        const response = await fetch(`${BASE_URL}/api/admin/orders`);
+        const ordersData = await response.json();
 
+        const container = document.getElementById("orders-list-container");
+
+        if (!ordersData || ordersData.length === 0) {
+            container.innerHTML = "<p>No orders found in database.</p>";
+            return;
+        }
+
+        // Création du tableau des commandes
+        container.innerHTML = `
+            <table style="width:100%; border-collapse: collapse; margin-top:15px;">
+                <thead>
+                    <tr style="background: #f8f9fa; border-bottom: 2px solid #eee;">
+                        <th style="padding:12px; text-align:left;">ID</th>
+                        <th style="padding:12px; text-align:left;">Dish Name</th>
+                        <th style="padding:12px; text-align:left;">Price</th>
+                        <th style="padding:12px; text-align:left;">Qty</th>
+                        <th style="padding:12px; text-align:left;">Total</th>
+                        <th style="padding:12px; text-align:left;">Status</th>
+                        <th style="padding:12px; text-align:left;">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${ordersData.map(order => `
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="padding:12px;">#${order.id}</td>
+                            <td style="padding:12px; font-weight:bold;">${order.item_name || order.item}</td>
+                            <td style="padding:12px;">${order.unit_price} FCFA</td>
+                            <td style="padding:12px;">x${order.quantity}</td>
+                            <td style="padding:12px; color:#FF8C00; font-weight:bold;">${(order.unit_price * order.quantity).toLocaleString()} FCFA</td>
+                            <td style="padding:12px;">
+                                <span style="background:#dcfce7; color:#166534; padding:4px 8px; border-radius:12px; font-size:12px;">
+                                    ${order.status || 'Paid'}
+                                </span>
+                            </td>
+                            <td style="padding:12px; font-size:12px; color:#666;">
+                                ${new Date(order.created_at).toLocaleDateString()}
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    } catch (err) {
+        console.error("Erreur chargement commandes:", err);
+        document.getElementById("orders-list-container").innerHTML = 
+            `<p style="color:red;">Error connecting to database. Make sure your server is running.</p>`;
+    }
+}
 fetchData();
