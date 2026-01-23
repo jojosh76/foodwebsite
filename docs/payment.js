@@ -80,7 +80,7 @@ async function processPayment() {
 
     // --- LOGIQUE D'ENVOI AU BACKEND ---
     try {
-        const response = awaitfetch(`${BASE_URL}/api/payment`, {
+        const response = await fetch(`${BASE_URL}/api/payment`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
