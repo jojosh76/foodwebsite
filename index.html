@@ -2,81 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>About Us</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script src="login.js"></script>
+
+    <link rel="stylesheet" href="login.css">
 </head>
 <body>
 
-    <!-- HEADER -->
-    <section class="header">
-        <h1>About Us</h1>
-        <img src="https://via.placeholder.com/800x200?text=ICT+University+Campus"
-             alt="Campus Visual"
-             class="campus-img">
-    </section>
+<div class="container">
+   
 
-    <!-- PROJECT DESCRIPTION -->
-    <section class="project">
-        <h2>Our Project</h2>
-        <p>
-            Our project is a <strong>digital canteen platform</strong> designed for
-            ICT University students. The system allows students to browse available
-            meals, place food orders online, make secure payments, and simply collect
-            their meals upon arrival at the canteen.
-        </p>
+    <div class="login-box">
+        <h2>Login</h2>
 
-        <p>
-            The main goal of this platform is to <strong>reduce waiting time</strong>,
-            improve convenience, and make the overall canteen experience faster and
-            more efficient for students.
-        </p>
+        <form>
+            <label>Email:</label>
+            <input type="email" placeholder="Enter your email" required>
 
-        <p>
-            This project was developed collaboratively by a group of
-            <strong>five motivated students</strong>, each contributing specific
-            skills and responsibilities to ensure the success of the system.
-        </p>
-    </section>
+            <label>Password:</label>
+            <input type="password" placeholder="Enter your password" required>
 
-    <!-- TEAM SECTION -->
-    <section class="team">
-        <h2>Meet the Team</h2>
+            <button type="submit">Log In</button>
 
-        <div class="team-container">
+            <p class="register-link">
+                Don't have an account?
+                <a href="register.html">Register here</a>
+            </p>
+        </form>
+    </div>
+</div>
 
-            <div class="member">
-                <div class="photo-placeholder">Photo</div>
-                <h3>Mohammed Hamidou</h3>
-                <p>Frontend Developer</p>
-            </div>
-
-            <div class="member">
-                <div class="photo-placeholder">Photo</div>
-                <h3>Team Member 1</h3>
-                <p>Backend Developer</p>
-            </div>
-
-            <div class="member">
-                <div class="photo-placeholder">Photo</div>
-                <h3>Team Member 2</h3>
-                <p>Database Administrator</p>
-            </div>
-
-            <div class="member">
-                <div class="photo-placeholder">Photo</div>
-                <h3>Team Member 3</h3>
-                <p>Scrum Master</p>
-            </div>
-
-            <div class="member">
-                <div class="photo-placeholder">Photo</div>
-                <h3>Team Member 4</h3>
-                <p>UI/UX Designer</p>
-            </div>
-
-        </div>
-    </section>
-
-    <script src="script.js"></script>
 </body>
 </html>
