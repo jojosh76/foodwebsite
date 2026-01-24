@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         displayEmail.value = savedEmail;
     } else {
         // Si aucun email n'est trouvé, on redirige vers le login (sécurité)
-        window.location.href = "index.html";
+        window.location.href = "login.html";
     }
 
     // 2. LOGIQUE DU BOUTON LOGOUT
