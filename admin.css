@@ -155,33 +155,3 @@ th {
   background: #fef3c7;
   color: #92400e;
 }
-.admin-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 15px;
-}
-
-.table-card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.approve-btn {
-    background: #10b981;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-/* ===== 2. NAVIGATION BAR ===== */
-.navbar {
-    background-color: #003366; /* Bleu ICT-U */
-    padding: 15px 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
