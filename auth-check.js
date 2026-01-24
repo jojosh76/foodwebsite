@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 2️⃣ Protection : utilisateur non connecté → retour au login
     if (!userId) {
-        window.location.href = "index.html";
+        window.location.href = "login.html";
         return;
     }
 
@@ -23,5 +23,5 @@ document.addEventListener("DOMContentLoaded", () => {
 // 4️⃣ Fonction de déconnexion
 function logout() {
     localStorage.clear();      // Supprime toutes les données utilisateur
-    window.location.href = "index.html"; // Redirection vers la page de connexion
+    window.location.href = "login.html"; // Redirection vers la page de connexion
 }
