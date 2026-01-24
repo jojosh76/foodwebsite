@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - ICT University Canteen</title>
+    <link rel="stylesheet" href="menu.css">
+    <script src="auth-check.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-links">
+        <a href="about-us.html">About Us</a>
+        <a href="menu.html" class="active">Our Menu</a>
+        <a href="settings.html">Settings</a>
+        <a href="admin.html" id="admin-link" style="display: none;">Dashboard Admin</a>
+    </div>
+</nav>
+
+<header>
+    <div class="header-content">
+        <div class="logo-container">
+            <img src="dishes/PHOTO-2025-12-24-14-45-49.jpg" alt="Logo ICT-U" class="main-logo">
+        </div>
+        <div class="header-text">
+            <h1>Our gourmet menu</h1>
+            <p>ICT University Canteen - Fresh, fast and delicious</p>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <section>
+        <h2 class="category-title">Menu</h2>
+        <div class="menu-grid">
+            
+            
+
+            <div id="dynamic-menu-grid" class="menu-grid"></div>
+
+        </div>
+    </section>
+
+    <section>
+        <h2 class="category-title">Drinks</h2>
+        <div class="menu-grid">
+            <article class="menu-item">
+                <img src="dishes/produit-cite-1--14.png" alt="Big Juice" class="item-image">
+                <div class="item-details">
+                    <div class="item-header">
+                        <span class="item-name">Juice</span>
+                        <span class="item-price">500 FCFA</span>
+                    </div>
+                    <p class="item-description">1L refreshing bottle</p>
+                    <button class="order-btn" onclick="addToCart('Juice', 500)">Order</button>
+                </div>
+            </article>
+
+            <article class="menu-item">
+                <img src="dishes/Bouteilles.png" alt="Little juice" class="item-image">
+                <div class="item-details">
+                    <div class="item-header">
+                        <span class="item-name">Little juice</span>
+                        <span class="item-price">300 FCFA</span>
+                    </div>
+                    <p class="item-description">350 ml refreshing bottle</p>
+                    <button class="order-btn" onclick="addToCart('Little juice', 300)">Order</button>
+                </div>
+            </article>
+
+            <article class="menu-item">
+                <img src="dishes/OIP_4_474x.jpg" alt="Water" class="item-image">
+                <div class="item-details">
+                    <div class="item-header">
+                        <span class="item-name">Water</span>
+                        <span class="item-price">300 FCFA</span>
+                    </div>
+                    <p class="item-description">Fresh mineral water, 50cl bottle</p>
+                    <button class="order-btn" onclick="addToCart('Water', 300)">Order</button>
+                </div>
+            </article>
+
+             <div id="dynamic-drinks-grid" class="menu-grid"></div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 ICT University Canteen</p>
+</footer>
+
+<script src="menu.js"></script>
+
+</body>
+</html>

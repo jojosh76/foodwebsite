@@ -2,83 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ICT University Canteen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script src="login.js"></script>
 
-    <!-- CSS INSIDE HTML -->
-    <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-
-            /* Background image */
-            background-image: url("image/background.jpg.jpg");
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* Overlay */
-        .overlay {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        /* Logo */
-        .logo {
-            width: 120px;
-            margin-bottom: 20px;
-        }
-
-        /* Title */
-        h1 {
-            color: White;
-            font-size: 36px;
-            margin-bottom: 40px;
-        }
-
-        /* Button */
-        button {
-            padding: 15px 35px;
-            font-size: 18px;
-            border: none;
-            border-radius: 8px;
-            background-color: white;
-            color: #661400;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background-color: #cce0ff;
-        }
-    </style>
+    <link rel="stylesheet" href="login.css">
 </head>
-
 <body>
 
-    <div class="overlay">
+<div class="container">
+   
 
-        <!-- ICT University Logo -->
-        <img src="image/ict_logo.png.jpeg" alt="ICT University Logo" class="logo">
+    <div class="login-box">
+        <h2>Login</h2>
 
-        <!-- Title -->
-        <h1>ICT University Canteen</h1>
+        <form>
+            <label>Email:</label>
+            <input type="email" placeholder="Enter your email" required>
 
-        <!-- Button -->
-        <button onclick="takeOrder()">Take an Order</button>
+            <label>Password:</label>
+            <input type="password" placeholder="Enter your password" required>
 
+            <button type="submit">Log In</button>
+
+            <p class="register-link">
+                Don't have an account?
+                <a href="register.html">Register here</a>
+            </p>
+        </form>
     </div>
-
-    <!-- JavaScript INSIDE HTML -->
-    <script>
-        function takeOrder() {
-            alert("Welcome to ICT University Canteen!");
-        }
-    </script>
+</div>
 
 </body>
 </html>
