@@ -2,135 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: white;
-        }
-
-        .header {
-            text-align: center;
-            padding: 30px 0;
-            font-size: 2rem;
-            font-weight: bold;
-        }
-
-        .campus-photo {
-            display: block;
-            margin: 0 auto;
-            width: 120px;       /* tiny photo */
-            height: 80px;
-            background-color: #ddd;
-            border: 1px solid #888;
-        }
-
-        .project-description {
-            width: 80%;
-            margin: 30px auto;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            text-align: center;
-        }
-
-        .team-section {
-            width: 80%;
-            margin: 40px auto;
-        }
-
-        .member {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .photo-placeholder {
-            width: 120px;
-            height: 120px;
-            background-color: #eaeaea;
-            border: 2px dashed #999;
-            margin: 0 auto 10px auto;
-            border-radius: 50%;
-        }
-
-        .name {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .role {
-            color: #555;
-        }
-
-    </style>
+    <title>About Us - ICT Canteen</title>
+    <link rel="stylesheet" href="about-us.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="auth-check.js"></script>
 </head>
-
 <body>
-    <div class="header">About Us</div>
 
-    <!-- Small campus photo -->
-    <div class="campus-photo"></div>
-
-    <!-- Project presentation -->
-    <div class="project-description">
-        Our project is a digital canteen platform designed for ICT University students. 
-        With this system, students will be able to browse meals, place food orders online, 
-        make secure payments, and simply collect their plates upon arrival at the canteen. 
-        Our goal is to reduce waiting time, improve convenience, and make the entire 
-        canteen experience faster and more efficient.  
-        <br><br>
-        This project was developed collaboratively by our group of six motivated students.
-    </div>
-
-    <!-- Team section -->
-    <div class="team-section">
-
-        <!-- Member 1 – Mohammed -->
-        <div class="member">
-            <div class="photo-placeholder"></div>
-            <div class="name">Mohammed</div>
-            <div class="role">Group Member</div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-links">
+                <a href="about-us.html" class="active">About Us</a>
+                <a href="menu.html">Our Menu</a>
+                <a href="settings.html">Settings</a>
+                <a href="admin.html" id="admin-link" style="display: none;">Dashboard Admin</a>
+            </div>
         </div>
+    </nav>
 
-        <!-- Member 2 -->
-        <div class="member">
-            <div class="photo-placeholder"></div>
-            <div class="name">Team Member 2</div>
-            <div class="role">Group Member</div>
+    <section class="header">
+        <h1>About Us</h1>
+        <div class="logo-container">
+            <img src="dishes/PHOTO-2025-12-24-14-45-49.jpg" alt="Logo ICT-U" class="main-logo">
+        </div>   
+    </section>
+
+    <section class="project">
+        <h2>Our Project</h2>
+        <p>
+            Our project is a <strong>digital canteen platform</strong> designed for
+            ICT University students. The system allows students to browse available
+            meals, place food orders online, make secure payments, and simply collect
+            their meals upon arrival at the canteen.
+        </p>
+
+        <p>
+            The main goal of this platform is to <strong>reduce waiting time</strong>,
+            improve convenience, and make the overall canteen experience faster and
+            more efficient for students.
+        </p>
+
+        <div class="cta-container">
+            <a href="menu.html" class="cta-button">Order Your Meal Now</a>
         </div>
+    </section>
 
-        <!-- Member 3 -->
-        <div class="member">
-            <div class="photo-placeholder"></div>
-            <div class="name">Team Member 3</div>
-            <div class="role">Group Member</div>
+    <section class="team">
+        <h2>Meet the Team</h2>
+        <div class="team-container">
+            <div class="member">
+                <div class="members"></div>
+                 <img src="dishes/1767779752898.jpg " alt= "photo " class= "member">
+                <h3>Mbey Joseph Junior</h3>
+                <p>Scrum Master</p>
+            </div>
+            <div class="member">
+                <div class="members"></div>
+                <img src="dishes/IMG-20251231-WA0065.jpg " alt= "photo " class= "member">
+                <h3>Mohamadou Bachirou</h3>
+                <p>Product Owner</p>
+            </div>
+            <div class="member">
+                <div class="members"></div>
+                <img src="dishes/IMG-20251231-WA0090.jpg " alt= "photo " class= "member">
+                <h3>Kemseu Djouno Yves</h3>
+                <p>Team Developer</p>
+            </div>
+            <div class="member">
+                <div class="members"></div>
+                 <img src="dishes/IMG-20251231-WA0089.jpg " alt= "photo " class= "member">
+                <h3>Mohammed Hamidou</h3>
+                <p>Team Developer</p>
+            </div>
         </div>
+    </section>
 
-        <!-- Member 4 -->
-        <div class="member">
-            <div class="photo-placeholder"></div>
-            <div class="name">Team Member 4</div>
-            <div class="role">Group Member</div>
-        </div>
-
-        <!-- Member 5 -->
-        <div class="member">
-            <div class="photo-placeholder"></div>
-            <div class="name">Team Member 5</div>
-            <div class="role">Group Member</div>
-        </div>
-
-        <!-- Member 6 -->
-        <div class="member">
-            <div class="photo-placeholder"></div>
-            <div class="name">Team Member 6</div>
-            <div class="role">Group Member</div>
-        </div>
-
-    </div>
-
+    <script src="about-us.js"></script>
 </body>
 </html>

@@ -2,11 +2,12 @@
    MENU.JS - GESTION DU MENU (MYSQL) ET DU PANIER
    ========================================================== */
 
+const BASE_URL = "https://foodwebsite-7znj.onrender.com";
+
 let cart = [];
 let totalAmount = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Charger les plats depuis la base de données SQL (au lieu du localStorage)
     renderMenuFromSQL();
 });
 
@@ -18,19 +19,24 @@ async function renderMenuFromSQL() {
     if (!grid) return;
 
     try {
-        // Appel à ton API
-        const response = await fetch("http://localhost:3000/api/meals");
+        const response = await fetch(`${BASE_URL}/api/meals`)
         const meals = await response.json();
 
-        // Si la base est vide
         if (meals.length === 0) {
             grid.innerHTML = "<p style='text-align:center; color:#666;'>No extra dishes available today.</p>";
             return;
         }
 
-        // Génération du HTML pour chaque plat récupéré
-        grid.innerHTML = meals.map(m => `
-            <article class="menu-item">
+        // Génération du HTML avec gestion du STOCK
+        grid.innerHTML = meals.map(m => {
+            const isOutOfStock = m.stock <= 0;
+            const stockColor = m.stock <= 5 ? "#e11d48" : "#28a745"; // Rouge si stock bas
+
+            return `
+            <article class="menu-item" style="${isOutOfStock ? 'opacity: 0.7;' : ''}">
+                <div class="stock-badge" style="background:${stockColor}; position:absolute; top:10px; right:10px; color:white; padding:4px 8px; border-radius:5px; font-size:12px; font-weight:bold; z-index:10;">
+                    ${isOutOfStock ? "SOLD OUT" : "Stock: " + m.stock}
+                </div>
                 <img src="${m.image_url}" alt="${m.name}" class="item-image">
                 <div class="item-details">
                     <div class="item-header">
@@ -38,64 +44,48 @@ async function renderMenuFromSQL() {
                         <span class="item-price">${m.price} FCFA</span>
                     </div>
                     <p class="item-description">${m.description || "Freshly prepared ICTU meal."}</p>
-                    <button class="order-btn" onclick="addToCart('${m.name.replace(/'/g, "\\'")}', ${m.price})">
-                        <i class="fa fa-cart-plus"></i> Order
+                    <button class="order-btn" 
+                        onclick="addToCart('${m.name.replace(/'/g, "\\'")}', ${m.price}, ${m.id})"
+                        ${isOutOfStock ? "disabled style='background:#ccc; cursor:not-allowed;'" : ""}>
+                        <i class="fa ${isOutOfStock ? 'fa-times' : 'fa-cart-plus'}"></i> 
+                        ${isOutOfStock ? 'Out of Stock' : 'Order Now'}
                     </button>
                 </div>
             </article>
-        `).join("");
+        `}).join("");
 
-        // 3. Une fois les plats affichés, on active les animations
         setupAnimations();
 
     } catch (err) {
         console.error("Erreur lors du chargement du menu SQL:", err);
-        grid.innerHTML = "<p style='color:red; text-align:center;'>Impossible de charger le menu. Vérifiez que le serveur Node.js est lancé.</p>";
+        grid.innerHTML = "<p style='color:red; text-align:center;'>Impossible de charger le menu.</p>";
     }
 }
 
 /**
- * Gère l'ajout au panier et la redirection vers le paiement
+ * Gère l'ajout au panier et la redirection
  */
-function addToCart(itemName, price) {
-    // Logique interne du panier
-    cart.push({ name: itemName, price: price });
+function addToCart(itemName, price, itemId) {
+    cart.push({ id: itemId, name: itemName, price: price });
     totalAmount += price;
 
-    // Notification visuelle
     showNotification(`${itemName} added to cart!`);
     
-    console.log("Cart Update:", cart);
-    console.log("Current Total:", totalAmount, "FCFA");
-
-    // Redirection vers la page de paiement avec les paramètres dans l'URL
-    // encodeURIComponent est utilisé pour gérer les espaces et caractères spéciaux
+    // Redirection vers paiement
     setTimeout(() => {
-        window.location.href = `payment.html?item=${encodeURIComponent(itemName)}&price=${price}`;
-    }, 800); // Petit délai pour laisser l'utilisateur voir la notification
+        window.location.href = `payment.html?id=${itemId}&item=${encodeURIComponent(itemName)}&price=${price}`;
+    }, 800);
 }
 
-/**
- * Affiche une petite bulle de confirmation (Notification)
- */
 function showNotification(message) {
     const notification = document.createElement('div');
     notification.className = 'cart-notification';
     notification.innerHTML = `<i class="fa fa-check-circle"></i> ${message}`;
     document.body.appendChild(notification);
 
-    // Style rapide pour la notification (si pas dans ton CSS)
     Object.assign(notification.style, {
-        position: "fixed",
-        bottom: "20px",
-        right: "20px",
-        background: "#28a745",
-        color: "white",
-        padding: "12px 20px",
-        borderRadius: "8px",
-        boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-        zIndex: "1000",
-        transition: "opacity 0.5s"
+        position: "fixed", bottom: "20px", right: "20px", background: "#28a745",
+        color: "white", padding: "12px 20px", borderRadius: "8px", zIndex: "1000"
     });
 
     setTimeout(() => {
@@ -104,9 +94,6 @@ function showNotification(message) {
     }, 2000);
 }
 
-/**
- * Animation d'apparition fluide au défilement (Scroll Intersection Observer)
- */
 function setupAnimations() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -117,7 +104,6 @@ function setupAnimations() {
         });
     }, { threshold: 0.1 });
 
-    // On observe tous les menu-items (ceux du HTML fixe et ceux injectés par SQL)
     document.querySelectorAll('.menu-item').forEach(item => {
         item.style.opacity = "0";
         item.style.transform = "translateY(20px)";

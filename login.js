@@ -1,3 +1,6 @@
+// URL vers ton backend Render
+const BASE_URL = "https://foodwebsite-7znj.onrender.com";
+
 // Attendre que toute la page HTML soit chargée
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -29,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
         loginBtn.disabled = true;
 
         // Appel au backend pour la connexion
-        fetch("http://localhost:3000/api/login", {
+        fetch(`${BASE_URL}/api/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -57,15 +60,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // Redirection selon le type d'utilisateur
                 if (data.user.email.endsWith("@ictu.edu.cm")) {
-                    
-                    window.location.href = "about us.html";
+                    window.location.href = "about-us.html";
                 } else {
-                    
-                    window.location.href = "about us.html";
+                    window.location.href = "about-us.html";
                 }
 
             } else {
-                
                 alert("Login failed: " + data.message);
 
                 // Réinitialisation du bouton
